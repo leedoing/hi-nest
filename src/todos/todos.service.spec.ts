@@ -1,16 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MoviesService } from './movies.service';
+import { TodosService } from './todos.service';
 import { NotFoundException } from '@nestjs/common';
 
-describe('MoviesService', () => {
-  let service: MoviesService;
+describe('TodosService', () => {
+  let service: TodosService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [MoviesService],
+      providers: [TodosService],
     }).compile();
 
-    service = module.get<MoviesService>(MoviesService);
+    service = module.get<TodosService>(TodosService);
   });
 
   it('should be defined', () => {
@@ -25,14 +25,13 @@ describe('MoviesService', () => {
   });
 
   describe('getOne', () => {
-    it('should return a movie', () => {
+    it('should return a Todo', () => {
       service.create({
-        title: 'Test Movie',
-        genres: ['test'],
-        year: 2000,
+        name: 'Test Todo',
+        todoList: ['test'],
       });
-      const movie = service.getOne(1);
-      expect(movie).toBeDefined();
+      const Todo = service.getOne(1);
+      expect(Todo).toBeDefined();
     });
 
     it('should throw 404 error', () => {
@@ -45,11 +44,10 @@ describe('MoviesService', () => {
   });
 
   describe('deleteOne', () => {
-    it('deletes a movie', () => {
+    it('deletes a Todo', () => {
       service.create({
-        title: 'Test Movie',
-        genres: ['test'],
-        year: 2000,
+        name: 'Test Todo',
+        todoList: ['test'],
       });
       const beforeDelete = service.getAll().length;
       service.deleteOne(1);
@@ -67,12 +65,11 @@ describe('MoviesService', () => {
   });
 
   describe('create', () => {
-    it('should create a movie', () => {
+    it('should create a Todo', () => {
       const beforeCreate = service.getAll().length;
       service.create({
-        title: 'Test Movie',
-        genres: ['test'],
-        year: 2000,
+        name: 'Test Todo',
+        todoList: ['test'],
       });
       const afterCreate = service.getAll().length;
       expect(afterCreate).toBeGreaterThan(beforeCreate);
@@ -80,15 +77,14 @@ describe('MoviesService', () => {
   });
 
   describe('update', () => {
-    it('should update a movie', () => {
+    it('should update a Todo', () => {
       service.create({
-        title: 'Test Movie',
-        genres: ['test'],
-        year: 2000,
+        name: 'Test Todo',
+        todoList: ['test'],
       });
-      service.update(1, { title: 'Updated Test' });
-      const movie = service.getOne(1);
-      expect(movie.title).toEqual('Updated Test');
+      service.update(1, { name: 'Updated Test' });
+      const Todo = service.getOne(1);
+      expect(Todo.name).toEqual('Updated Test');
     });
 
     it('should throw a NotFoundException', () => {
