@@ -6,6 +6,7 @@ tracer.init({
   tags: {
     env: 'stg',
     owner: 'jin',
+    service: 'todo-nestjs',
   },
 });
 
