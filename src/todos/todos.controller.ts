@@ -18,17 +18,19 @@ export class TodosController {
 
   @Get()
   getAll(): Todo[] {
-    console.log('??');
     return this.TodosService.getAll();
   }
 
   @Get(':id')
   getOne(@Param('id') TodoId: number): Todo {
+    // console.log(TodoId);
+    // console.log(this.TodosService.getOne(TodoId));
     return this.TodosService.getOne(TodoId);
   }
 
   @Post()
   create(@Body() TodoData: CreateTodoDto) {
+    console.log('Controller_post');
     return this.TodosService.create(TodoData);
   }
 

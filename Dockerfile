@@ -7,4 +7,4 @@ RUN npm run build
 FROM node:17.7.2
 WORKDIR /app
 COPY --from=builder /app ./
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "start:dd_prod"]

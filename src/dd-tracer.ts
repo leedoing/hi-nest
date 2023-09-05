@@ -1,13 +1,15 @@
 import tracer from 'dd-trace';
 
 tracer.init({
+  sampleRate: 1,
   logInjection: true,
-  runtimeMetrics: true,
+  env: 'prd',
+  service: 'hello-nest',
+  version: '1.0.0',
   tags: {
-    env: 'stg',
-    owner: 'jin',
-    service: 'todo-nestjs',
+    owner: 'hj',
+    team: 'dd',
   },
 });
-
+console.log('dd-trace.js');
 export default tracer;

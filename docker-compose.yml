@@ -1,0 +1,36 @@
+version: '3'
+services:
+  datadog:
+    image: 'datadog/agent:7.31.1'
+    environment:
+      - DD_API_KEY=17faabac026b2039fb643915eb74aa43
+      - DD_LOGS_ENABLED=true
+      - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+      - DD_PROCESS_AGENT_ENABLED=true
+      - DD_DOCKER_LABELS_AS_TAGS={"my.custom.label.team":"team"}
+      - DD_TAGS='env:hyunjin-home-docker'
+      - DD_HOSTNAME=hyunjin-home-docker
+      # - DD_APM_NON_LOCAL_TRAFFIC=true
+    ports:
+      - 127.0.0.1:8126:8126/tcp
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+  nest-todo:
+    environment:
+      - DD_SERVICE=env-nest-todo-service
+      - DD_ENV=env-hyunjin-home-docker
+      - DD_LOGS_INJECTION=true
+      - DD_TRACE_SAMPLE_RATE=1
+      - DD_PROFILING_ENABLED=true
+      - DD_AGENT_HOST=datadog
+    image: 'nest-todo:0.0.1'
+    ports:
+      - '3000:3000'
+    labels:
+      com.datadoghq.tags.env: 'tag-env-hyunjin-home-docker'
+      com.datadoghq.tags.service: 'tag-svc-nest-todo-service'
+      com.datadoghq.tags.version: '2.1'
+      my.custom.label.team: 'nest-todo'
+      com.datadoghq.ad.logs: '[{"source": "nodejs", "service": "log-svc-nest-todo-service"}]'
